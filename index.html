@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzarte | Pizzaria Artesanal & Entrega Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pizzaRed: '#E50914',
+                        pizzaDarkRed: '#B20610',
+                        pizzaDark: '#0F0F0F',
+                        pizzaCard: '#1A1A1A',
+                        pizzaYellow: '#FFB800',
+                        pizzaGold: '#FFA800',
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0F0F0F;
+            color: #FFFFFF;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 3D Card and Button Effects */
+        .card-3d {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+        }
+        .card-3d:hover {
+            transform: translateY(-8px) rotateX(3deg) rotateY(-3deg);
+            box-shadow: -15px 20px 30px rgba(229, 9, 20, 0.25), 0 0 20px rgba(255, 184, 0, 0.15);
+        }
+
+        .btn-3d {
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 0 #99050d, 0 10px 20px rgba(0,0,0,0.5);
+            transform: translateY(0);
+        }
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #99050d, 0 14px 25px rgba(229, 9, 20, 0.4);
+        }
+        .btn-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #99050d, 0 5px 10px rgba(0,0,0,0.5);
+        }
+
+        .btn-yellow-3d {
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 0 #b38200, 0 10px 20px rgba(0,0,0,0.5);
+        }
+        .btn-yellow-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #b38200, 0 14px 25px rgba(255, 184, 0, 0.4);
+        }
+        .btn-yellow-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #b38200, 0 5px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0f0f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e50914;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b20610;
+        }
+
+        /* Hero Background Glow */
+        .hero-glow {
+            background: radial-gradient(circle at 50% 30%, rgba(229, 9, 20, 0.25) 0%, rgba(15, 15, 15, 0) 70%);
+        }
+    </style>
+</head>
+<body class="bg-pizzaDark text-white antialiased selection:bg-pizzaRed selection:text-white">
+
+    <header class="sticky top-0 z-50 bg-pizzaDark/95 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" onclick="switchTab('home')" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 bg-pizzaRed rounded-2xl flex items-center justify-center shadow-lg shadow-pizzaRed/30 group-hover:rotate-12 transition-transform duration-300 border border-pizzaYellow/40">
+                    <i class="fa-solid fa-pizza-slice text-pizzaYellow text-2xl"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-black tracking-wider uppercase font-serif text-white">PIZZ<span class="text-pizzaRed">ARTE</span></span>
+                    <span class="block text-[10px] tracking-widest text-pizzaYellow uppercase font-bold">Artisanal Pizzeria</span>
+                </div>
+            </a>
+
+            <!-- Navigation Tabs (Desktop) -->
+            <nav class="hidden md:flex items-center gap-1 bg-white/5 p-1.5 rounded-2xl border border-white/10">
+                <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-5 py-2.5 rounded-xl text-sm font-bold tracking-wide transition-all bg-pizzaRed text-white shadow-md">
+                    <i class="fa-solid fa-house mr-2"></i> Início
+                </button>
+                <button onclick="switchTab('menu')" id="nav-menu" class="nav-btn px-5 py-2.5 rounded-xl text-sm font-bold tracking-wide transition-all text-gray-300 hover:text-white hover:bg-white/10">
+                    <i class="fa-solid fa-book-open mr-2"></i> Cardápio
+                </button>
+                <button onclick="switchTab('builder')" id="nav-builder" class="nav-btn px-5 py-2.5 rounded-xl text-sm font-bold tracking-wide transition-all text-gray-300 hover:text-white hover:bg-white/10">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-2 text-pizzaYellow"></i> Monte a Sua
+                </button>
+                <button onclick="switchTab('tracking')" id="nav-tracking" class="nav-btn px-5 py-2.5 rounded-xl text-sm font-bold tracking-wide transition-all text-gray-300 hover:text-white hover:bg-white/10">
+                    <i class="fa-solid fa-motorcycle mr-2"></i> Rastrear Pedido
+                </button>
+            </nav>
+
+            <!-- Cart Trigger & Mobile Menu Toggle -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleCartDrawer()" class="relative bg-pizzaCard hover:bg-white/10 border border-white/15 px-4 py-3 rounded-2xl flex items-center gap-3 transition-all card-3d">
+                    <i class="fa-solid fa-bag-shopping text-pizzaYellow text-lg"></i>
+                    <span class="hidden sm:inline font-bold text-sm">Carrinho</span>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-pizzaRed text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-black border-2 border-pizzaDark shadow-md">0</span>
+                </button>
+                <button onclick="toggleMobileMenu()" class="md:hidden bg-white/5 p-3 rounded-2xl border border-white/10 text-white">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-pizzaCard border-b border-white/10 px-4 pt-2 pb-6 space-y-2">
+            <button onclick="switchTab('home'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl font-bold hover:bg-white/5 flex items-center gap-3">
+                <i class="fa-solid fa-house text-pizzaRed"></i> Início
+            </button>
+            <button onclick="switchTab('menu'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl font-bold hover:bg-white/5 flex items-center gap-3">
+                <i class="fa-solid fa-book-open text-pizzaYellow"></i> Cardápio
+            </button>
+            <button onclick="switchTab('builder'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl font-bold hover:bg-white/5 flex items-center gap-3">
+                <i class="fa-solid fa-wand-magic-sparkles text-pizzaYellow"></i> Monte a Sua Pizza
+            </button>
+            <button onclick="switchTab('tracking'); toggleMobileMenu();" class="w-full text-left px-4 py-3 rounded-xl font-bold hover:bg-white/5 flex items-center gap-3">
+                <i class="fa-solid fa-motorcycle text-pizzaRed"></i> Rastrear Pedido
+            </button>
+        </div>
+    </header>
+
+    <main class="min-h-screen pb-24">
+
+        <!-- TAB 1: HOME VIEW -->
+        <section id="tab-home" class="tab-content">
+            <!-- Hero Section -->
+            <div class="relative hero-glow pt-12 pb-20 overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6 text-center lg:text-left z-10">
+                        <div class="inline-flex items-center gap-2 bg-pizzaRed/10 border border-pizzaRed/30 px-4 py-2 rounded-full text-pizzaYellow text-sm font-bold">
+                            <i class="fa-solid fa-fire animate-pulse"></i> A verdadeira pizza napolitana e artesanal
+                        </div>
+                        <h1 class="text-4xl sm:text-6xl font-black font-serif tracking-tight leading-none">
+                            A Arte de Fazer <span class="text-pizzaRed underline decoration-pizzaYellow decoration-wavy">Pizza</span> em Cada Fatia.
+                        </h1>
+                        <p class="text-gray-300 text-lg max-w-xl mx-auto lg:mx-0">
+                            Ingredientes selecionados importados, massa fermentada por 48 horas e assada em forno a lenha com muito carinho e tradição.
+                        </p>
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                            <button onclick="switchTab('menu')" class="w-full sm:w-auto bg-pizzaRed hover:bg-pizzaDarkRed text-white font-extrabold px-8 py-4 rounded-2xl btn-3d uppercase tracking-wider text-sm flex items-center justify-center gap-3">
+                                <i class="fa-solid fa-pizza-slice text-pizzaYellow"></i> Ver Cardápio
+                            </button>
+                            <button onclick="switchTab('builder')" class="w-full sm:w-auto bg-pizzaYellow hover:bg-pizzaGold text-pizzaDark font-extrabold px-8 py-4 rounded-2xl btn-yellow-3d uppercase tracking-wider text-sm flex items-center justify-center gap-3">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Monte Sua Pizza
+                            </button>
+                        </div>
+                        <!-- Features badge row -->
+                        <div class="grid grid-cols-3 gap-4 pt-6 border-t border-white/10 text-center lg:text-left">
+                            <div>
+                                <span class="block text-2xl font-black text-pizzaYellow">48h</span>
+                                <span class="text-xs text-gray-400 font-medium">Fermentação Natural</span>
+                            </div>
+                            <div>
+                                <span class="block text-2xl font-black text-pizzaRed">450°C</span>
+                                <span class="text-xs text-gray-400 font-medium">Forno a Lenha</span>
+                            </div>
+                            <div>
+                                <span class="block text-2xl font-black text-pizzaYellow">30 min</span>
+                                <span class="text-xs text-gray-400 font-medium">Entrega Rápida</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative flex justify-center z-10">
+                        <div class="relative w-72 sm:w-96 h-72 sm:h-96 rounded-full p-4 bg-gradient-to-tr from-pizzaRed via-pizzaDark to-pizzaYellow shadow-2xl animate-[spin_60s_linear_infinite]">
+                            <div class="w-full h-full rounded-full overflow-hidden border-4 border-white/20 shadow-inner">
+                                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80" alt="Pizza Artesanal Pizzarte" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <!-- Floating decorative card -->
+                        <div class="absolute -bottom-6 -left-4 sm:left-4 bg-pizzaCard/90 backdrop-blur-md border border-white/15 p-4 rounded-2xl shadow-2xl card-3d flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-pizzaYellow/20 flex items-center justify-center text-pizzaYellow font-bold text-xl">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm">Avaliação 4.9 / 5.0</h4>
+                                <p class="text-xs text-gray-400">+12.500 clientes satisfeitos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Categories Highlights -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="text-center mb-12">
+                    <span class="text-pizzaYellow font-bold text-sm tracking-widest uppercase">Nossas Especialidades</span>
+                    <h2 class="text-3xl sm:text-4xl font-black font-serif mt-2">Escolha por Categoria</h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div onclick="switchTab('menu'); filterCategory('Salgada')" class="bg-pizzaCard border border-white/10 rounded-3xl p-6 text-center cursor-pointer card-3d group">
+                        <div class="w-20 h-20 mx-auto mb-4 rounded-2xl overflow-hidden shadow-md">
+                            <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=300&q=80" alt="Salgadas" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Pizzas Salgadas</h3>
+                        <p class="text-xs text-gray-400 mb-4">Os clássicos e especiais da casa</p>
+                        <span class="inline-flex items-center text-pizzaRed text-xs font-bold group-hover:translate-x-1 transition-transform">Ver Cardápio <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                    <div onclick="switchTab('menu'); filterCategory('Doce')" class="bg-pizzaCard border border-white/10 rounded-3xl p-6 text-center cursor-pointer card-3d group">
+                        <div class="w-20 h-20 mx-auto mb-4 rounded-2xl overflow-hidden shadow-md">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=300&q=80" alt="Doces" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Pizzas Doces</h3>
+                        <p class="text-xs text-gray-400 mb-4">Chocolate, frutas e cremes finos</p>
+                        <span class="inline-flex items-center text-pizzaRed text-xs font-bold group-hover:translate-x-1 transition-transform">Ver Cardápio <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                    <div onclick="switchTab('menu'); filterCategory('Bebida')" class="bg-pizzaCard border border-white/10 rounded-3xl p-6 text-center cursor-pointer card-3d group">
+                        <div class="w-20 h-20 mx-auto mb-4 rounded-2xl overflow-hidden shadow-md">
+                            <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=300&q=80" alt="Bebidas" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Bebidas & Sucos</h3>
+                        <p class="text-xs text-gray-400 mb-4">Refrigerantes, cervejas e sucos gelados</p>
+                        <span class="inline-flex items-center text-pizzaRed text-xs font-bold group-hover:translate-x-1 transition-transform">Ver Cardápio <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                    <div onclick="switchTab('menu'); filterCategory('Combo')" class="bg-pizzaCard border border-white/10 rounded-3xl p-6 text-center cursor-pointer card-3d group">
+                        <div class="w-20 h-20 mx-auto mb-4 rounded-2xl overflow-hidden shadow-md">
+                            <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&w=300&q=80" alt="Combos" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Combos Família</h3>
+                        <p class="text-xs text-gray-400 mb-4">Pizza grande + bebida com super desconto</p>
+                        <span class="inline-flex items-center text-pizzaRed text-xs font-bold group-hover:translate-x-1 transition-transform">Ver Cardápio <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: MENU VIEW -->
+        <section id="tab-menu" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-10">
+                <div>
+                    <h2 class="text-3xl sm:text-4xl font-black font-serif">Cardápio Oficial</h2>
+                    <p class="text-gray-400 text-sm mt-1">Selecione suas delícias favoritas e adicione ao pedido</p>
+                </div>
+                <!-- Category Filter Buttons -->
+                <div class="flex flex-wrap gap-2 bg-pizzaCard p-1.5 rounded-2xl border border-white/10">
+                    <button onclick="filterCategory('All')" id="cat-All" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-pizzaRed text-white">Todos</button>
+                    <button onclick="filterCategory('Salgada')" id="cat-Salgada" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-300 hover:bg-white/10">Salgadas</button>
+                    <button onclick="filterCategory('Doce')" id="cat-Doce" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-300 hover:bg-white/10">Doces</button>
+                    <button onclick="filterCategory('Bebida')" id="cat-Bebida" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-300 hover:bg-white/10">Bebidas</button>
+                    <button onclick="filterCategory('Combo')" id="cat-Combo" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-300 hover:bg-white/10">Combos</button>
+                </div>
+            </div>
+
+            <!-- Menu Grid -->
+            <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Items populated dynamically via JS -->
+            </div>
+        </section>
+
+        <!-- TAB 3: CUSTOM PIZZA BUILDER VIEW -->
+        <section id="tab-builder" class="tab-content hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+            <div class="text-center mb-10">
+                <span class="text-pizzaYellow font-bold text-sm tracking-widest uppercase">Crie sua receita</span>
+                <h2 class="text-3xl sm:text-4xl font-black font-serif mt-2">Monte a Sua Pizza Exclusiva</h2>
+                <p class="text-gray-400 text-sm mt-1">Escolha a massa, molho, queijo e ingredientes especiais ao seu gosto</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Builder Options -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Step 1: Size -->
+                    <div class="bg-pizzaCard border border-white/10 p-6 rounded-3xl">
+                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-pizzaYellow">
+                            <span class="w-7 h-7 rounded-full bg-pizzaYellow/20 flex items-center justify-center text-xs">1</span> Escolha o Tamanho
+                        </h3>
+                        <div class="grid grid-cols-3 gap-4" id="builder-sizes">
+                            <label class="border border-white/15 p-4 rounded-2xl cursor-pointer hover:border-pizzaRed transition-all text-center flex flex-col items-center justify-center gap-2 bg-white/5 group has-[:checked]:border-pizzaRed has-[:checked]:bg-pizzaRed/10">
+                                <input type="radio" name="b_size" value="Pequena" data-price="35" class="hidden" onchange="updateBuilder()">
+                                <i class="fa-solid fa-pizza-slice text-xl text-gray-400 group-has-[:checked]:text-pizzaRed"></i>
+                                <span class="font-bold text-sm">Pequena</span>
+                                <span class="text-xs text-gray-400">4 fatias - R$ 35,00</span>
+                            </label>
+                            <label class="border border-pizzaRed p-4 rounded-2xl cursor-pointer hover:border-pizzaRed transition-all text-center flex flex-col items-center justify-center gap-2 bg-pizzaRed/10 group has-[:checked]:border-pizzaRed">
+                                <input type="radio" name="b_size" value="Média" data-price="48" checked class="hidden" onchange="updateBuilder()">
+                                <i class="fa-solid fa-pizza-slice text-2xl text-pizzaRed"></i>
+                                <span class="font-bold text-sm">Média</span>
+                                <span class="text-xs text-gray-400">6 fatias - R$ 48,00</span>
+                            </label>
+                            <label class="border border-white/15 p-4 rounded-2xl cursor-pointer hover:border-pizzaRed transition-all text-center flex flex-col items-center justify-center gap-2 bg-white/5 group has-[:checked]:border-pizzaRed has-[:checked]:bg-pizzaRed/10">
+                                <input type="radio" name="b_size" value="Grande" data-price="62" class="hidden" onchange="updateBuilder()">
+                                <i class="fa-solid fa-pizza-slice text-3xl text-gray-400 group-has-[:checked]:text-pizzaRed"></i>
+                                <span class="font-bold text-sm">Grande</span>
+                                <span class="text-xs text-gray-400">8 fatias - R$ 62,00</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Crust/Massa -->
+                    <div class="bg-pizzaCard border border-white/10 p-6 rounded-3xl">
+                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-pizzaYellow">
+                            <span class="w-7 h-7 rounded-full bg-pizzaYellow/20 flex items-center justify-center text-xs">2</span> Escolha a Massa
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4" id="builder-crusts">
+                            <label class="border border-pizzaRed p-4 rounded-2xl cursor-pointer transition-all flex items-center justify-between bg-pizzaRed/10 group">
+                                <div class="flex items-center gap-3">
+                                    <input type="radio" name="b_crust" value="Tradicional Artesanal" data-price="0" checked class="accent-pizzaRed" onchange="updateBuilder()">
+                                    <span class="font-bold text-sm">Tradicional Napolitana</span>
+                                </div>
+                                <span class="text-xs text-gray-400">Grátis</span>
+                            </label>
+                            <label class="border border-white/15 p-4 rounded-2xl cursor-pointer transition-all flex items-center justify-between bg-white/5 group">
+                                <div class="flex items-center gap-3">
+                                    <input type="radio" name="b_crust" value="Massa Integral" data-price="5" class="accent-pizzaRed" onchange="updateBuilder()">
+                                    <span class="font-bold text-sm">Integral com Grãos</span>
+                                </div>
+                                <span class="text-xs text-pizzaYellow">+ R$ 5,00</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Toppings/Ingredientes -->
+                    <div class="bg-pizzaCard border border-white/10 p-6 rounded-3xl">
+                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-pizzaYellow">
+                            <span class="w-7 h-7 rounded-full bg-pizzaYellow/20 flex items-center justify-center text-xs">3</span> Adicionais & Coberturas (Escolha quantos quiser)
+                        </h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="builder-toppings">
+                            <label class="border border-white/15 p-3 rounded-xl cursor-pointer flex items-center justify-between bg-white/5 hover:border-pizzaYellow transition-all">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <input type="checkbox" value="Bacon Crocante" data-price="6" class="accent-pizzaRed" onchange="updateBuilder()">
+                                    <span>Bacon</span>
+                                </div>
+                                <span class="text-xs text-gray-400">+R$6</span>
+                            </label>
+                            <label class="border border-white/15 p-3 rounded-xl cursor-pointer flex items-center justify-between bg-white/5 hover:border-pizzaYellow transition-all">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <input type="checkbox" value="Catupiry Original" data-price="7" class="accent-pizzaRed" onchange="updateBuilder()">
+                                    <span>Catupiry</span>
+                                </div>
+                                <span class="text-xs text-gray-400">+R$7</span>
+                            </label>
+                            <label class="border border-white/15 p-3 rounded-xl cursor-pointer flex items-center justify-between bg-white/5 hover:border-pizzaYellow transition-all">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <input type="checkbox" value="Pepperoni Italiano" data-price="8" class="accent-pizzaRed" onchange="updateBuilder()">
+                                    <span>Pepperoni</span>
+                                </div>
+                                <span class="text-xs text-gray-400">+R$8</span>
+                            </label>
+                            <label class="border border-white/15 p-3 rounded-xl cursor-pointer flex items-center justify-between bg-white/5 hover:border-pizzaYellow transition-all">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <input type="checkbox" value="Champignon Fresco" data-price="6" class="accent-pizzaRed" onchange="updateBuilder()">
+                                    <span>Champignon</span>
+                                </div>
+                                <span class="text-xs text-gray-400">+R$6</span>
+                            </label>
+                            <label class="border border-white/15 p-3 rounded-xl cursor-pointer flex items-center justify-between bg-white/5 hover:border-pizzaYellow transition-all">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <input type="checkbox" value="Cebola Roxa" data-price="3" class="accent-pizzaRed" onchange="updateBuilder()">
+                                    <span>Cebola Roxa</span>
+                                </div>
+                                <span class="text-xs text-gray-400">+R$3</span>
+                            </label>
+                            <label class="border border-white/15 p-3 rounded-xl cursor-pointer flex items-center justify-between bg-white/5 hover:border-pizzaYellow transition-all">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <input type="checkbox" value="Azeitona Preta" data-price="4" class="accent-pizzaRed" onchange="updateBuilder()">
+                                    <span>Azeitona</span>
+                                </div>
+                                <span class="text-xs text-gray-400">+R$4</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Summary & Add to Cart -->
+                <div class="space-y-6">
+                    <div class="bg-pizzaCard border border-white/15 p-6 rounded-3xl sticky top-28 shadow-2xl card-3d">
+                        <h3 class="text-xl font-bold font-serif mb-4 pb-3 border-b border-white/10 flex items-center justify-between">
+                            <span>Sua Criação</span>
+                            <i class="fa-solid fa-pizza-slice text-pizzaRed"></i>
+                        </h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Tamanho:</span>
+                                <span id="summary-size" class="font-bold">Média (6 fatias)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Massa:</span>
+                                <span id="summary-crust" class="font-bold">Tradicional Artesanal</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400 block mb-1">Adicionais:</span>
+                                <div id="summary-toppings" class="text-xs text-pizzaYellow font-medium space-y-1 pl-2">
+                                    <p class="text-gray-500 italic">Nenhum adicional selecionado</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between mb-6">
+                            <span class="text-gray-300 font-bold">Total:</span>
+                            <span id="summary-price" class="text-2xl font-black text-pizzaYellow">R$ 48,00</span>
+                        </div>
+                        <button onclick="addCustomPizzaToCart()" class="w-full bg-pizzaRed hover:bg-pizzaDarkRed text-white font-extrabold py-4 rounded-2xl btn-3d uppercase tracking-wider text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-bag-shopping"></i> Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: ORDER TRACKING VIEW -->
+        <section id="tab-tracking" class="tab-content hidden max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+            <div class="text-center mb-10">
+                <span class="text-pizzaYellow font-bold text-sm tracking-widest uppercase">Acompanhe em Tempo Real</span>
+                <h2 class="text-3xl sm:text-4xl font-black font-serif mt-2">Rastreamento de Pedido</h2>
+                <p class="text-gray-400 text-sm mt-1">Veja o status de preparo e entrega do seu pedido ativo</p>
+            </div>
+
+            <!-- Active Order Card -->
+            <div id="tracking-active-container" class="bg-pizzaCard border border-white/15 p-8 rounded-3xl shadow-2xl card-3d">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-white/10">
+                    <div>
+                        <span class="text-xs uppercase font-bold text-pizzaYellow tracking-widest">Pedido #<span id="track-order-id">PZ-9482</span></span>
+                        <h3 class="text-2xl font-black mt-1" id="track-status-title">Pizza no Forno a Lenha 🔥</h3>
+                    </div>
+                    <div class="bg-pizzaRed/20 border border-pizzaRed/40 px-4 py-2 rounded-2xl text-pizzaYellow font-bold text-sm">
+                        <i class="fa-regular fa-clock mr-2"></i> Tempo estimado: <span id="track-eta">22 min</span>
+                    </div>
+                </div>
+
+                <!-- Progress Steps Bar -->
+                <div class="py-10">
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 relative">
+                        <!-- Step 1 -->
+                        <div class="flex sm:flex-col items-center gap-4 sm:gap-2 text-left sm:text-center group">
+                            <div id="step-1" class="w-12 h-12 rounded-2xl bg-pizzaRed text-white flex items-center justify-center font-bold text-lg shadow-lg shadow-pizzaRed/40 transition-all">
+                                <i class="fa-solid fa-receipt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm">1. Confirmado</h4>
+                                <p class="text-xs text-gray-400">Pedido recebido</p>
+                            </div>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="flex sm:flex-col items-center gap-4 sm:gap-2 text-left sm:text-center group">
+                            <div id="step-2" class="w-12 h-12 rounded-2xl bg-pizzaRed text-white flex items-center justify-center font-bold text-lg shadow-lg shadow-pizzaRed/40 transition-all">
+                                <i class="fa-solid fa-fire-burner"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm">2. Preparando</h4>
+                                <p class="text-xs text-gray-400">Na cozinha</p>
+                            </div>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="flex sm:flex-col items-center gap-4 sm:gap-2 text-left sm:text-center group">
+                            <div id="step-3" class="w-12 h-12 rounded-2xl bg-white/10 text-gray-400 flex items-center justify-center font-bold text-lg transition-all" id="step-3-circle">
+                                <i class="fa-solid fa-motorcycle"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-300">3. Em Entrega</h4>
+                                <p class="text-xs text-gray-500">Motoqueiro a caminho</p>
+                            </div>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="flex sm:flex-col items-center gap-4 sm:gap-2 text-left sm:text-center group">
+                            <div id="step-4" class="w-12 h-12 rounded-2xl bg-white/10 text-gray-400 flex items-center justify-center font-bold text-lg transition-all">
+                                <i class="fa-solid fa-house-chimney"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-300">4. Entregue</h4>
+                                <p class="text-xs text-gray-500">Bom apetite!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Items Summary Box -->
+                <div class="bg-black/40 p-6 rounded-2xl border border-white/10">
+                    <h4 class="font-bold text-sm text-gray-300 mb-3">Itens do Pedido Atual:</h4>
+                    <div id="track-items-list" class="space-y-2 text-sm text-gray-400">
+                        <p class="italic">Carregando detalhes do pedido recente...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No active order state -->
+            <div id="tracking-empty" class="hidden text-center py-16 bg-pizzaCard border border-white/10 rounded-3xl">
+                <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-500 text-2xl">
+                    <i class="fa-solid fa-box-open"></i>
+                </div>
+                <h3 class="font-bold text-lg text-white">Nenhum pedido em andamento</h3>
+                <p class="text-gray-400 text-sm mt-1 mb-6">Faça um pedido no cardápio para acompanhar a entrega aqui.</p>
+                <button onclick="switchTab('menu')" class="bg-pizzaRed text-white font-bold px-6 py-3 rounded-xl btn-3d text-sm">Ver Cardápio</button>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="toggleCartDrawer()"></div>
+        
+        <!-- Drawer Panel -->
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-pizzaCard border-l border-white/15 flex flex-col shadow-2xl">
+                <!-- Drawer Header -->
+                <div class="p-6 border-b border-white/10 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-bag-shopping text-pizzaYellow text-xl"></i>
+                        <h2 class="font-bold text-lg font-serif">Seu Carrinho</h2>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-white">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items List Container -->
+                <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+                    <!-- Dynamic Cart Items -->
+                </div>
+
+                <!-- Drawer Footer & Checkout Action -->
+                <div class="p-6 border-t border-white/10 bg-pizzaDark space-y-4">
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between text-gray-400">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal">R$ 0,00</span>
+                        </div>
+                        <div class="flex justify-between text-gray-400">
+                            <span>Taxa de Entrega</span>
+                            <span class="text-pizzaYellow font-bold">R$ 8,00</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-black pt-2 border-t border-white/10">
+                            <span>Total</span>
+                            <span id="cart-total" class="text-pizzaYellow">R$ 8,00</span>
+                        </div>
+                    </div>
+                    <button onclick="openCheckoutModal()" id="checkout-btn" class="w-full bg-pizzaRed hover:bg-pizzaDarkRed text-white font-extrabold py-4 rounded-2xl btn-3d uppercase tracking-wider text-sm flex items-center justify-center gap-2">
+                        <span>Finalizar Pedido</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkout-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeCheckoutModal()"></div>
+        <div class="relative bg-pizzaCard border border-white/15 max-w-2xl w-full rounded-3xl p-6 sm:p-8 shadow-2xl z-10 my-8">
+            <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+                <h3 class="text-xl font-bold font-serif text-pizzaYellow flex items-center gap-2">
+                    <i class="fa-solid fa-credit-card"></i> Finalizar Compra
+                </h3>
+                <button onclick="closeCheckoutModal()" class="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="checkout-form" onsubmit="submitOrder(event)" class="space-y-6">
+                <!-- Delivery or Pickup -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-gray-400 mb-2">Tipo de Atendimento</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="border border-pizzaRed bg-pizzaRed/10 p-3 rounded-2xl cursor-pointer text-center font-bold text-sm flex items-center justify-center gap-2">
+                            <input type="radio" name="order_type" value="Entrega" checked class="accent-pizzaRed"> Entrega em Casa
+                        </label>
+                        <label class="border border-white/15 bg-white/5 p-3 rounded-2xl cursor-pointer text-center font-bold text-sm flex items-center justify-center gap-2">
+                            <input type="radio" name="order_type" value="Retirada" class="accent-pizzaRed"> Retirar no Balcão
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Customer Details -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-gray-400 mb-1">Nome Completo</label>
+                        <input type="text" required placeholder="Ex: Carlos Silva" class="w-full bg-pizzaDark border border-white/15 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pizzaRed">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-gray-400 mb-1">Telefone / WhatsApp</label>
+                        <input type="text" required placeholder="(11) 99999-9999" class="w-full bg-pizzaDark border border-white/15 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pizzaRed">
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs uppercase font-bold text-gray-400 mb-1">Endereço (Rua e Nº)</label>
+                        <input type="text" required placeholder="Av. Paulista, 1000" class="w-full bg-pizzaDark border border-white/15 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pizzaRed">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-gray-400 mb-1">Bairro</label>
+                        <input type="text" required placeholder="Bela Vista" class="w-full bg-pizzaDark border border-white/15 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pizzaRed">
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-gray-400 mb-2">Forma de Pagamento</label>
+                    <div class="grid grid-cols-3 gap-3 mb-4">
+                        <label onclick="selectPaymentMethod('pix')" class="border border-pizzaRed bg-pizzaRed/10 p-3 rounded-xl cursor-pointer text-center text-xs font-bold flex flex-col items-center gap-1 hover:border-pizzaYellow transition-all payment-tab-btn">
+                            <input type="radio" name="payment" value="PIX" checked class="hidden">
+                            <i class="fa-solid fa-qrcode text-pizzaYellow text-lg"></i> PIX (5% off)
+                        </label>
+                        <label onclick="selectPaymentMethod('card')" class="border border-white/15 bg-white/5 p-3 rounded-xl cursor-pointer text-center text-xs font-bold flex flex-col items-center gap-1 hover:border-pizzaYellow transition-all payment-tab-btn">
+                            <input type="radio" name="payment" value="Cartão" class="hidden">
+                            <i class="fa-solid fa-credit-card text-pizzaRed text-lg"></i> Cartão
+                        </label>
+                        <label onclick="selectPaymentMethod('cash')" class="border border-white/15 bg-white/5 p-3 rounded-xl cursor-pointer text-center text-xs font-bold flex flex-col items-center gap-1 hover:border-pizzaYellow transition-all payment-tab-btn">
+                            <input type="radio" name="payment" value="Dinheiro" class="hidden">
+                            <i class="fa-solid fa-money-bill-wave text-green-400 text-lg"></i> Dinheiro
+                        </label>
+                    </div>
+
+                    <!-- Dynamic Payment Content Container -->
+                    <div id="payment-details-container" class="bg-black/40 p-4 rounded-2xl border border-white/10">
+                        <!-- PIX Content -->
+                        <div id="pay-content-pix" class="space-y-3 text-center">
+                            <div class="bg-white p-3 rounded-xl inline-block shadow-lg mx-auto">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=00020126580014br.gov.bcb.pix0136123e4567-e89b-12d3-a456-4266141740005204000053039865802BR5913Pizzarte Ltda6009Sao Paulo62070503***63041D3D" alt="QR Code PIX" class="w-32 h-32 mx-auto">
+                            </div>
+                            <p class="text-xs text-gray-400">Escaneie o QR Code acima com o app do seu banco ou copie a chave PIX abaixo:</p>
+                            <div class="flex items-center gap-2 bg-pizzaDark border border-white/15 rounded-xl p-2">
+                                <input type="text" readonly id="pix-key-input" value="00020126580014br.gov.bcb.pix0136pizzarte-pagamento-online" class="bg-transparent text-xs text-pizzaYellow flex-1 outline-none px-2 font-mono">
+                                <button type="button" onclick="copyPixKey()" class="bg-pizzaYellow text-pizzaDark font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-pizzaGold transition-all">
+                                    <i class="fa-solid fa-copy mr-1"></i> Copiar
+                                </button>
+                            </div>
+                            <span class="block text-[11px] text-pizzaYellow/80 font-medium">⏳ Chave expira em <span id="pix-timer">15:00</span></span>
+                        </div>
+
+                        <!-- Credit Card Content -->
+                        <div id="pay-content-card" class="space-y-3 hidden">
+                            <div>
+                                <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Número do Cartão</label>
+                                <input type="text" placeholder="4532 •••• •••• 8932" maxlength="19" class="w-full bg-pizzaDark border border-white/15 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-pizzaRed">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Validade (MM/AA)</label>
+                                    <input type="text" placeholder="12/28" maxlength="5" class="w-full bg-pizzaDark border border-white/15 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-pizzaRed">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">CVV / Segurança</label>
+                                    <input type="password" placeholder="123" maxlength="4" class="w-full bg-pizzaDark border border-white/15 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-pizzaRed">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Nome no Cartão</label>
+                                <input type="text" placeholder="Nome como impresso no cartão" class="w-full bg-pizzaDark border border-white/15 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-pizzaRed">
+                            </div>
+                        </div>
+
+                        <!-- Cash Content -->
+                        <div id="pay-content-cash" class="space-y-3 hidden">
+                            <label class="block text-xs font-bold text-gray-300">Precisa de troco para quanto?</label>
+                            <input type="text" placeholder="Ex: R$ 100,00 (Deixe em branco se não precisar)" class="w-full bg-pizzaDark border border-white/15 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-pizzaRed">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-pizzaYellow hover:bg-pizzaGold text-pizzaDark font-extrabold py-4 rounded-2xl btn-yellow-3d uppercase tracking-wider text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-check-circle"></i> Confirmar e Enviar Pedido
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-pizzaCard border border-pizzaYellow/40 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-pizzaYellow/20 flex items-center justify-center text-pizzaYellow font-bold">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <h4 class="font-bold text-sm" id="toast-title">Sucesso!</h4>
+            <p class="text-xs text-gray-400" id="toast-desc">Item adicionado ao carrinho.</p>
+        </div>
+    </div>
+
+    <script>
+        function selectPaymentMethod(method) {
+            document.querySelectorAll('.payment-tab-btn').forEach(btn => {
+                btn.classList.remove('border-pizzaRed', 'bg-pizzaRed/10');
+                btn.classList.add('border-white/15', 'bg-white/5');
+            });
+            event.currentTarget.classList.remove('border-white/15', 'bg-white/5');
+            event.currentTarget.classList.add('border-pizzaRed', 'bg-pizzaRed/10');
+            event.currentTarget.querySelector('input').checked = true;
+
+            document.getElementById('pay-content-pix').classList.add('hidden');
+            document.getElementById('pay-content-card').classList.add('hidden');
+            document.getElementById('pay-content-cash').classList.add('hidden');
+
+            document.getElementById(`pay-content-${method}`).classList.remove('hidden');
+        }
+
+        function copyPixKey() {
+            const keyInput = document.getElementById('pix-key-input');
+            document.execCommand('copy');
+            keyInput.select();
+            showToast('Chave PIX Copiada!', 'Cole no aplicativo do seu banco para efetuar o pagamento.');
+        }
+
+        // Start PIX countdown timer simulation
+        let timerSeconds = 900;
+        setInterval(() => {
+            if(timerSeconds > 0) {
+                timerSeconds--;
+                let m = Math.floor(timerSeconds / 60);
+                let s = timerSeconds % 60;
+                const timerEl = document.getElementById('pix-timer');
+                if(timerEl) {
+                    timerEl.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                }
+            }
+        }, 1000);
+
+        /* Database of Menu Items with Real High-Quality Unsplash Images */
+        const menuItems = [
+            { id: 1, name: 'Margherita Artesanal', category: 'Salgada', price: 54.90, desc: 'Molho de tomate pelati italiano, mozzarella fior di latte, manjericão fresco e azeite extra virgem.', img: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&w=600&q=80' },
+            { id: 2, name: 'Pepperoni Supremo', category: 'Salgada', price: 68.00, desc: 'Molho artesanal, generosas fatias de pepperoni importado, mozzarella e toque de mel picante.', img: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=600&q=80' },
+            { id: 3, name: 'Quatro Queijos Nobre', category: 'Salgada', price: 64.00, desc: 'Mozzarella, gorgonzola cremoso, provolone defumado e parmesão gratinado com orégano.', img: 'https://images.unsplash.com/photo-1573821663912-569905455b1c?auto=format&fit=crop&w=600&q=80' },
+            { id: 4, name: 'Calabresa Especial com Catupiry', category: 'Salgada', price: 59.90, desc: 'Calabresa artesanal fatiada, cebola roxa marinada, azeitonas pretas e borda recheada com catupiry original.', img: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=600&q=80' },
+            { id: 5, name: 'Frango com Catupiry', category: 'Salgada', price: 62.00, desc: 'Peito de frango desfiado temperado ao molho leve de ervas e cobertura farta de catupiry autêntico.', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80' },
+            { id: 6, name: 'Pizza de Chocolate Trufado', category: 'Doce', price: 58.00, desc: 'Ganache de chocolate meio amargo nobre, morangos frescos picados e granulado belga.', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80' },
+            { id: 7, name: 'Pizza de Banana com Doce de Leite', category: 'Doce', price: 52.00, desc: 'Rodelas de banana caramelizadas com canela em pó e puro doce de leite artesanal argentino.', img: 'https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&w=600&q=80' },
+            { id: 8, name: 'Coca-Cola 2 Litros', category: 'Bebida', price: 14.00, desc: 'Gelada, garrafa PET 2L.', img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80' },
+            { id: 9, name: 'Cerveja Artesanal IPA 500ml', category: 'Bebida', price: 22.00, desc: 'Cerveja artesanal encorpada com notas cítricas.', img: 'https://images.unsplash.com/photo-1608270105302-2433543ce9c3?auto=format&fit=crop&w=600&q=80' },
+            { id: 10, name: 'Combo Família (Pizza Grande + Refri)', category: 'Combo', price: 79.90, desc: 'Escolha 1 Pizza Grande Salgada do cardápio + 1 Coca-Cola 2L.', img: 'https://images.unsplash.com/photo-1594007654729-407eedc4be65?auto=format&fit=crop&w=600&q=80' }
+        ];
+
+        let cart = [];
+        let currentFilter = 'All';
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-pizzaRed', 'text-white', 'shadow-md');
+                btn.classList.add('text-gray-300', 'hover:text-white', 'hover:bg-white/10');
+            });
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-300', 'hover:text-white', 'hover:bg-white/10');
+                activeBtn.classList.add('bg-pizzaRed', 'text-white', 'shadow-md');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Render Menu Items
+        function renderMenu(filter = 'All') {
+            const grid = document.getElementById('menu-grid');
+            grid.innerHTML = '';
+            
+            const filtered = filter === 'All' ? menuItems : menuItems.filter(i => i.category === filter);
+            
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-pizzaCard border border-white/10 rounded-3xl overflow-hidden card-3d flex flex-col justify-between';
+                card.innerHTML = `
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=Pizzarte'">
+                        <span class="absolute top-3 right-3 bg-pizzaDark/80 backdrop-blur-md text-pizzaYellow font-bold text-xs px-3 py-1.5 rounded-full border border-white/10">
+                            ${item.category}
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2 font-serif">${item.name}</h3>
+                            <p class="text-xs text-gray-400 line-clamp-2 mb-4">${item.desc}</p>
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                            <span class="text-xl font-black text-pizzaYellow">R$ ${item.price.toFixed(2).replace('.', ',')}</span>
+                            <button onclick="addToCart(${item.id})" class="bg-pizzaRed hover:bg-pizzaDarkRed text-white px-4 py-2.5 rounded-xl font-bold text-xs btn-3d flex items-center gap-2">
+                                <i class="fa-solid fa-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(cat) {
+            currentFilter = cat;
+            renderMenu(cat);
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-pizzaRed', 'text-white');
+                btn.classList.add('text-gray-300', 'hover:bg-white/10');
+            });
+            const activeCat = document.getElementById(`cat-${cat}`);
+            if (activeCat) {
+                activeCat.classList.remove('text-gray-300', 'hover:bg-white/10');
+                activeCat.classList.add('bg-pizzaRed', 'text-white');
+            }
+        }
+
+        // Cart Actions
+        function addToCart(id) {
+            const item = menuItems.find(i => i.id === id);
+            const existing = cart.find(c => c.id === id && !c.isCustom);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...item, qty: 1, cartId: Date.now() });
+            }
+            updateCartUI();
+            showToast('Adicionado!', `${item.name} foi adicionado ao carrinho.`);
+        }
+
+        function removeFromCart(cartId) {
+            cart = cart.filter(c => c.cartId !== cartId);
+            updateCartUI();
+        }
+
+        function changeQty(cartId, delta) {
+            const item = cart.find(c => c.cartId === cartId);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    removeFromCart(cartId);
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const badge = document.getElementById('cart-badge');
+            
+            const totalCount = cart.reduce((sum, i) => sum + i.qty, 0);
+            badge.innerText = totalCount;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-gray-400">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-3 text-gray-600"></i>
+                        <p class="text-sm font-bold">Seu carrinho está vazio</p>
+                        <p class="text-xs text-gray-500 mt-1">Adicione pizzas deliciosas do cardápio!</p>
+                    </div>
+                `;
+                document.getElementById('cart-subtotal').innerText = 'R$ 0,00';
+                document.getElementById('cart-total').innerText = 'R$ 8,00';
+                return;
+            }
+
+            container.innerHTML = '';
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                subtotal += item.price * item.qty;
+                const div = document.createElement('div');
+                div.className = 'bg-white/5 p-4 rounded-2xl border border-white/10 flex items-center justify-between gap-4';
+                div.innerHTML = `
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm">${item.name}</h4>
+                        <p class="text-xs text-pizzaYellow font-bold mt-1">R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-pizzaDark px-3 py-1.5 rounded-xl border border-white/10">
+                        <button onclick="changeQty(${item.cartId}, -1)" class="text-gray-400 hover:text-white px-1">-</button>
+                        <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
+                        <button onclick="changeQty(${item.cartId}, 1)" class="text-gray-400 hover:text-white px-1">+</button>
+                    </div>
+                    <button onclick="removeFromCart(${item.cartId})" class="text-gray-500 hover:text-pizzaRed p-2">
+                        <i class="fa-solid fa-trash-can text-sm"></i>
+                    </button>
+                `;
+                container.appendChild(div);
+            });
+
+            document.getElementById('cart-subtotal').innerText = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+            document.getElementById('cart-total').innerText = `R$ ${(subtotal + 8).toFixed(2).replace('.', ',')}`;
+        }
+
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Custom Pizza Builder Logic
+        function updateBuilder() {
+            const sizeRadio = document.querySelector('input[name="b_size"]:checked');
+            const crustRadio = document.querySelector('input[name="b_crust"]:checked');
+            const checkboxes = document.querySelectorAll('#builder-toppings input[type="checkbox"]:checked');
+
+            let basePrice = parseFloat(sizeRadio.dataset.price);
+            let crustPrice = parseFloat(crustRadio.dataset.price);
+            let toppingsTotal = 0;
+
+            let toppingsListHtml = '';
+            checkboxes.forEach(cb => {
+                toppingsTotal += parseFloat(cb.dataset.price);
+                toppingsListHtml += `<p>• ${cb.value} (+R$ ${cb.dataset.price})</p>`;
+            });
+
+            if (toppingsListHtml === '') {
+                toppingsListHtml = '<p class="text-gray-500 italic">Nenhum adicional selecionado</p>';
+            }
+
+            const totalPrice = basePrice + crustPrice + toppingsTotal;
+
+            document.getElementById('summary-size').innerText = `${sizeRadio.value}`;
+            document.getElementById('summary-crust').innerText = `${crustRadio.value}`;
+            document.getElementById('summary-toppings').innerHTML = toppingsListHtml;
+            document.getElementById('summary-price').innerText = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+
+            window.currentCustomPizza = {
+                name: `Pizza Customizada (${sizeRadio.value})`,
+                price: totalPrice,
+                desc: `Massa: ${crustRadio.value} | Adicionais: ${Array.from(checkboxes).map(c=>c.value).join(', ') || 'Nenhum'}`,
+                isCustom: true
+            };
+        }
+
+        function addCustomPizzaToCart() {
+            if (!window.currentCustomPizza) {
+                updateBuilder();
+            }
+            cart.push({ ...window.currentCustomPizza, qty: 1, cartId: Date.now() });
+            updateCartUI();
+            showToast('Pizza Personalizada!', 'Sua criação foi adicionada ao carrinho.');
+            toggleCartDrawer();
+        }
+
+        // Checkout Modal & Order Submission
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                showToast('Carrinho Vazio', 'Adicione itens antes de finalizar o pedido.', true);
+                return;
+            }
+            toggleCartDrawer();
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function submitOrder(e) {
+            e.preventDefault();
+            closeCheckoutModal();
+            cart = [];
+            updateCartUI();
+            
+            // Switch to tracking tab and simulate active order
+            switchTab('tracking');
+            document.getElementById('tracking-active-container').classList.remove('hidden');
+            document.getElementById('tracking-empty').classList.add('hidden');
+            
+            showToast('Pedido Realizado!', 'Seu pedido foi enviado para nossa cozinha com sucesso.');
+        }
+
+        // Toast Notification Helper
+        function showToast(title, desc, isError = false) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-desc').innerText = desc;
+            
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+
+        // Initialize App on Load
+        window.onload = function() {
+            renderMenu('All');
+            updateBuilder();
+            updateCartUI();
+        };
+    </script>
+</body>
+</html>
